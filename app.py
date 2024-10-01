@@ -1,4 +1,7 @@
 from flask import Flask, render_template
+import requests
+import json
+from flask import jsonify
 
 app = Flask(__name__)
 
@@ -33,7 +36,7 @@ def processar_informacoes(info):
 def index():
     return render_template('index.html')
 
-@app.route('/api/aula/<string:ra>', methods=['GET'])
+@app.route('/aula/<string:ra>', methods=['GET'])
 def buscar_aula(ra):
     # Processar o RA do aluno (remover espaços/pontos e reformatar)
     ra_formatado = formatar_ra(ra)
@@ -41,7 +44,7 @@ def buscar_aula(ra):
     # Realiza a requisição para o servidor externo (hostAula)
     try:
         # Substitua pelo seu endpoint real, caso tenha um servidor externo
-        response = requests.get(f'https://hostAula/api/consulta?ra={ra_formatado}')
+        response = requests.get(f'https://senaiweb.fieb.org.br/MinhaAula/api/aulas?ra={ra_formatado}')
         
         # Verifica se a resposta foi bem-sucedida
         if response.status_code == 200:
